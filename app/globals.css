@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, "Noto Sans", sans-serif;
+  --font-serif: Georgia, Cambria, "Times New Roman", serif;
+  --color-paper: #fbf9f6;
+  --color-ink: #0a0f14;
+  --color-earth-50: #f6f5f2;
+  --color-earth-100: #eae8e2;
+  --color-earth-200: #d5d2ca;
+  --color-earth-300: #b8b3a8;
+  --color-earth-400: #9a9486;
+  --color-earth-500: #7e7968;
+  --color-earth-600: #65614f;
+  --color-earth-700: #504c3e;
+  --color-earth-800: #434038;
+  --color-earth-900: #393731;
+  --color-earth-950: #1f1e19;
+  --color-clay-50: #f5f0eb;
+  --color-clay-100: #e9dfd3;
+  --color-clay-200: #d4bfa8;
+  --color-clay-300: #c0a07e;
+  --color-clay-400: #ae8666;
+  --color-clay-500: #9d7054;
+  --color-clay-600: #8e5e47;
+  --color-clay-700: #734c3a;
+  --color-clay-800: #5e4035;
+  --color-clay-900: #4e372e;
+  --color-rust: #b55a3a;
+  --color-slate-850: #22303a;
+  --color-slate-900: #15252e;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #fbf9f6;
+  color: #0a0f14;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+}
+
+::selection {
+  background: #d4bfa8;
+  color: #0a0f14;
+}
