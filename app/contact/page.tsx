@@ -20,8 +20,8 @@ export default function ContactPage() {
           <FormBuilder
             inquiryType="tray"
             fields={[
-              { name: 'name', label: 'Name', required: true },
-              { name: 'phone', label: 'Phone / WhatsApp', required: true },
+{ name: 'name', label: 'Name', type: 'text', required: true },
+{ name: 'phone', label: 'Phone / WhatsApp', type: 'text', required: true },
               { name: 'message', label: 'Quantity, delivery region, and frequency', type: 'textarea', full: true, required: true },
             ]}
             submitLabel="Send tray inquiry"
