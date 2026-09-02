@@ -20,8 +20,8 @@ export default function ContactPage() {
           <FormBuilder
             inquiryType="tray"
             fields={[
-{ name: 'name', label: 'Name', type: 'text', required: true },
-{ name: 'phone', label: 'Phone / WhatsApp', type: 'text', required: true },
+              { name: 'name', label: 'Name', type: 'text', required: true },
+              { name: 'phone', label: 'Phone / WhatsApp', type: 'text', required: true },
               { name: 'message', label: 'Quantity, delivery region, and frequency', type: 'textarea', full: true, required: true },
             ]}
             submitLabel="Send tray inquiry"
@@ -33,9 +33,9 @@ export default function ContactPage() {
             variant="dark"
             inquiryType="machine"
             fields={[
-              { name: 'name', label: 'Name', required: true },
-              { name: 'email', label: 'Email', required: true },
-              { name: 'country', label: 'Country', required: true },
+              { name: 'name', label: 'Name', type: 'text', required: true },
+              { name: 'email', label: 'Email', type: 'email', required: true },
+              { name: 'country', label: 'Country', type: 'text', required: true },
               { name: 'message', label: 'Intended capacity, budget range, and timeline', type: 'textarea', full: true, required: true },
             ]}
             submitLabel="Send machinery quote"
