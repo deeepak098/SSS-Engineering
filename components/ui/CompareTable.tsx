@@ -1,44 +1,96 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-
-const rows = [
-  { feature: 'Capacity / hour', semiAuto: '1500', fullAuto: '3000', fullAuto4500: '4500' },
-  { feature: 'Power (kW)', semiAuto: '3.5', fullAuto: '6.2', fullAuto4500: '9.0' },
-  { feature: 'Category', semiAuto: 'Semi-automatic', fullAuto: 'Fully-automatic', fullAuto4500: 'Fully-automatic' },
-  { feature: 'Export-ready', semiAuto: 'Yes', fullAuto: 'Yes', fullAuto4500: 'Yes' },
-];
+import { FALLBACK_MACHINES } from '@/lib/site';
 
 export default function MachineCompareTable() {
+  const models = FALLBACK_MACHINES;
+
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <header className="mb-10 md:mb-14">
-        <h2 className="font-serif text-3xl md:text-4xl tracking-tight mb-3">Compare models</h2>
-        <p className="text-ink/60 text-sm md:text-base">A quick comparison of the three machinery models available for export.</p>
-      </header>
-      <div className="overflow-x-auto rounded-2xl border border-earth-200/40 shadow-sm">
-        <table className="w-full text-sm">
-          <thead className="bg-ink text-paper">
-            <tr>
-              <th className="text-left px-5 py-4 font-medium">Feature</th>
-              <th className="text-left px-5 py-4 font-medium">Semi-Auto 1500</th>
-              <th className="text-left px-5 py-4 font-medium">Fully-Auto 3000</th>
-              <th className="text-left px-5 py-4 font-medium">Fully-Auto 4500</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.feature} className="border-b border-earth-200/30">
-                <th className="text-left px-5 py-4 font-normal text-ink/50">{r.feature}</th>
-                <td className="px-5 py-4 text-ink">{(r as Record<string, string>)["semiAuto"]}</td>
-                <td className="px-5 py-4 text-ink">{(r as Record<string, string>)["fullAuto"]}</td>
-                <td className="px-5 py-4 text-ink">{(r as Record<string, string>)["fullAuto4500"]}</td>
+    <section aria-labelledby="compare-heading" className="border-t border-[var(--line-strong)] bg-white">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 py-8 sm:py-10">
+        <h2 id="compare-heading" className="text-[18px] sm:text-[20px] font-semibold tracking-[-0.02em] text-ink">
+          Compare models
+        </h2>
+        <p className="mt-1 text-[13px] leading-5 text-ink/60 max-w-[60ch]">
+          Static order by capacity. A real <span className="font-mono-spec text-[12px]">&lt;table&gt;</span> with hairline borders — no cards.
+        </p>
+
+        <div className="mt-6 overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <table className="sss-table min-w-[720px]">
+            <caption className="sr-only">Comparison of SSS tray machinery models</caption>
+            <thead>
+              <tr>
+                <th scope="col" className="w-[22%]">
+                  Feature
+                </th>
+                {models.map((m) => (
+                  <th key={m.slug} scope="col" className="font-medium">
+                    {m.name}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="mt-6">
-        <Link href="/contact" className="inline-flex items-center gap-1 text-sm font-medium text-rust hover:text-rust/80 transition-colors">Request a quote <ArrowRight size={14} /></Link>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Capacity</th>
+                {models.map((m) => (
+                  <td key={m.slug} className="font-mono-spec">
+                    {m.capacityPerHour.toLocaleString()} pcs/hr
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Power</th>
+                {models.map((m) => (
+                  <td key={m.slug} className="font-mono-spec">
+                    {m.specs.power}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Raw material</th>
+                {models.map((m) => (
+                  <td key={m.slug}>{m.specs.rawMaterial}</td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Dimensions (L × W × H)</th>
+                {models.map((m) => (
+                  <td key={m.slug} className="font-mono-spec text-[13px]">
+                    {m.specs.dimensions}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Category</th>
+                {models.map((m) => (
+                  <td key={m.slug}>{m.category}</td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Export-ready</th>
+                {models.map((m) => (
+                  <td key={m.slug}>{m.exportReady ? 'Yes — CE-marked' : '—'}</td>
+                ))}
+              </tr>
+              <tr>
+                <th scope="row">Spec sheet</th>
+                {models.map((m) => (
+                  <td key={m.slug}>
+                    <a href={m.brochurePdfUrl} className="text-[12px] font-medium text-rust underline underline-offset-4">
+                      PDF
+                    </a>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-4">
+          <Link href="/contact" className="inline-flex bg-rust text-white text-[13px] font-medium px-4 py-2 hover:bg-[#b33e14]">
+            Request a quote for a model
+          </Link>
+        </div>
       </div>
     </section>
   );

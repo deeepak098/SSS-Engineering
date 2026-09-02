@@ -9,34 +9,33 @@ export type Field = {
   required?: boolean;
   placeholder?: string;
   options?: string[];
-  full?: boolean; // span both columns
+  full?: boolean;
 };
 
 type Props = {
   fields: Field[];
-  variant?: 'light' | 'dark';
   submitLabel?: string;
   endpoint?: string;
   inquiryType?: 'tray' | 'machine';
   productRef?: string;
-  buttonClass?: string;
+  tone?: 'pulp' | 'steel' | 'neutral';
 };
 
 export default function FormBuilder({
   fields,
-  variant = 'light',
   submitLabel = 'Send',
   endpoint = '/api/inquiries',
   inquiryType,
   productRef,
-  buttonClass,
+  tone = 'neutral',
 }: Props) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
-  const inputClass =
-    variant === 'dark'
-      ? 'w-full rounded-lg border border-paper/20 bg-ink/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rust/30 text-paper placeholder:text-paper/40'
-      : 'w-full rounded-lg border border-earth-200 bg-paper px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rust/20';
+  const inputBase =
+    'w-full border bg-white px-3.5 py-2.5 text-[13px] leading-5 placeholder:text-ink/40 focus:outline-none focus:border-ink/40';
+
+  const toneBorder =
+    tone === 'pulp' ? 'border-pulp/25 focus:border-pulp/40' : tone === 'steel' ? 'border-steel/25 focus:border-steel/40' : 'border-[var(--line-strong)]';
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,53 +57,68 @@ export default function FormBuilder({
   }
 
   return (
-    <form className="grid md:grid-cols-2 gap-5" onSubmit={handleSubmit}>
-      {fields.map((f) => (
-        <div key={f.name} className={f.full ? 'md:col-span-2' : ''}>
-          {f.type === 'textarea' ? (
-            <textarea
-              name={f.name}
-              required={f.required}
-              placeholder={f.placeholder || f.label}
-              rows={3}
-              className={inputClass}
-            />
-          ) : f.type === 'select' ? (
-            <select name={f.name} required={f.required} defaultValue="" className={inputClass}>
-              <option value="" disabled>{f.placeholder || f.label}</option>
-              {f.options?.map((o) => (
-                <option key={o} value={o}>{o}</option>
-              ))}
-            </select>
-          ) : (
-            <input
-              name={f.name}
-              type={f.type}
-              required={f.required}
-              placeholder={f.placeholder || f.label}
-              className={inputClass}
-            />
-          )}
-        </div>
-      ))}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid sm:grid-cols-2 gap-3">
+        {fields.map((f) => (
+          <div key={f.name} className={f.full ? 'sm:col-span-2' : ''}>
+            <label htmlFor={`f-${f.name}`} className="block text-[11px] tracking-[0.08em] text-ink/55 mb-1.5">
+              {f.label}
+              {f.required ? <span className="text-rust ml-1" aria-hidden>
+                *
+              </span> : null}
+            </label>
+            {f.type === 'textarea' ? (
+              <textarea
+                id={`f-${f.name}`}
+                name={f.name}
+                required={f.required}
+                placeholder={f.placeholder || ''}
+                rows={3}
+                className={`${inputBase} ${toneBorder} resize-y min-h-[96px]`}
+              />
+            ) : f.type === 'select' ? (
+              <select
+                id={`f-${f.name}`}
+                name={f.name}
+                required={f.required}
+                defaultValue=""
+                className={`${inputBase} ${toneBorder}`}
+              >
+                <option value="" disabled>
+                  {f.placeholder || f.label}
+                </option>
+                {f.options?.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                id={`f-${f.name}`}
+                name={f.name}
+                type={f.type}
+                required={f.required}
+                placeholder={f.placeholder || ''}
+                className={`${inputBase} ${toneBorder}`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
 
-      <div className={variant === 'dark' ? 'md:col-span-2 text-paper/70 text-sm' : 'md:col-span-2 text-ink/60 text-sm'}>
-        {status === 'sent' && 'Thank you — your inquiry has been received. We will contact you shortly.'}
-        {status === 'error' && 'Something went wrong. Please try again or contact us directly.'}
-        {status === 'sending' && 'Sending…'}
+      <div className="min-h-[18px] text-[12px] leading-5">
+        {status === 'sent' && <span className="text-ink">Received — we will get back to you shortly.</span>}
+        {status === 'error' && <span className="text-rust">Something went wrong. Try again or contact us directly.</span>}
+        {status === 'sending' && <span className="text-ink/60">Sending…</span>}
       </div>
 
       <button
         type="submit"
         disabled={status === 'sending'}
-        className={
-          buttonClass ||
-          (variant === 'dark'
-            ? 'md:col-span-2 rounded-lg bg-paper text-ink px-6 py-3 text-sm font-medium hover:bg-paper/90 transition-colors'
-            : 'md:col-span-2 rounded-lg bg-rust text-paper px-6 py-3 text-sm font-medium hover:bg-rust/90 transition-colors')
-        }
+        className="w-full sm:w-auto inline-flex justify-center bg-rust text-white text-[13px] font-medium px-6 py-2.5 hover:bg-[#b33e14] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
       >
-        {submitLabel}
+        {status === 'sending' ? 'Sending…' : submitLabel}
       </button>
     </form>
   );

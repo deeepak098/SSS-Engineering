@@ -1,87 +1,183 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
-import { SITE_NAME } from '@/lib/site';
-import MachineCompareTable from '@/components/ui/CompareTable';
 import FormBuilder from '@/components/forms/FormBuilder';
+import MachineCompareTable from '@/components/ui/CompareTable';
+import { EXPORT_COUNTRIES, FALLBACK_MACHINES } from '@/lib/site';
+import { SITE_NAME } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: `Machinery — ${SITE_NAME}`,
-  description: 'Egg tray manufacturing machinery: semi-automatic to fully automatic lines, export-ready.',
+  description: 'Moulded fibre tray production lines — semi-automatic to fully automatic, 1,500 to 4,500 pcs/hr, export-ready with spec tables.',
 };
 
-const machines = [
-  { name: 'Semi-Auto Line 1500', category: 'semi-automatic', capacityPerHour: 1500, specs: { power: '3.5 kW', rawMaterial: 'Waste paper / cardboard', dimensions: '2400 x 1100 x 1750 mm' }, slug: 'semi-auto-1500', image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop', exportReady: true },
-  { name: 'Fully-Auto Line 3000', category: 'fully-automatic', capacityPerHour: 3000, specs: { power: '6.2 kW', rawMaterial: 'Waste paper / cardboard', dimensions: '3200 x 1300 x 1900 mm' }, slug: 'full-auto-3000', image: 'https://images.unsplash.com/photo-1518770660439-4636500cff5f?q=80&w=800&auto=format&fit=crop', exportReady: true },
-  { name: 'Fully-Auto Line 4500', category: 'fully-automatic', capacityPerHour: 4500, specs: { power: '9.0 kW', rawMaterial: 'Waste paper / cardboard', dimensions: '3800 x 1400 x 2050 mm' }, slug: 'full-auto-4500', image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=800&auto=format&fit=crop', exportReady: true },
-];
-
 export default function MachineryPage() {
+  const machines = FALLBACK_MACHINES;
+
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <header className="max-w-3xl mb-14 md:mb-20">
-        <h1 className="font-serif text-4xl md:text-6xl tracking-tight mb-4">Machinery</h1>
-        <p className="text-ink/70 text-base md:text-lg leading-relaxed">Production lines from semi-automatic to fully automatic — designed for export with specs, installation guides, and remote support.</p>
-      </header>
-
-      <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-16">
-        {machines.map((m) => (
-          <article key={m.slug} className="rounded-2xl bg-paper border border-earth-200/40 shadow-sm overflow-hidden group">
-            <div className="aspect-[16/10] overflow-hidden bg-earth-50">
-              <img src={m.image} alt={m.name} className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" loading="lazy" />
+    <div>
+      <section className="border-b border-[var(--line-strong)] bg-white">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 py-10 sm:py-12 lg:py-14">
+          <div className="max-w-[64ch]">
+            <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.14em] text-ink/45">
+              <span className="w-6 h-px bg-steel/60" aria-hidden />
+              STEEL — MACHINERY
             </div>
-            <div className="p-6 md:p-8">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-serif text-xl md:text-2xl">{m.name}</h2>
-                {m.exportReady && <span className="text-[10px] font-bold uppercase tracking-widest bg-rust text-paper px-2.5 py-1 rounded-full">Export-ready</span>}
-              </div>
-              <p className="text-xs text-ink/50 mb-3 uppercase tracking-[0.1em]">{m.category}</p>
-              <div className="grid grid-cols-3 gap-3 mb-5 border-t border-earth-200/40 pt-4">
-                <div><div className="text-xs text-ink/40">Capacity</div><div className="text-sm font-medium">{m.capacityPerHour}/hr</div></div>
-                <div><div className="text-xs text-ink/40">Power</div><div className="text-sm font-medium">{m.specs.power}</div></div>
-                <div><div className="text-xs text-ink/40">Material</div><div className="text-sm font-medium">Paper/card</div></div>
-              </div>
-              <Link href={`/machinery/${m.slug}`} className="inline-flex items-center gap-1 text-sm font-medium text-rust hover:text-rust/80 transition-colors">Specs & PDF <ArrowUpRight size={14} /></Link>
-            </div>
-          </article>
-        ))}
-      </div>
+            <h1 className="mt-3 text-[32px] sm:text-[40px] font-semibold tracking-[-0.035em] leading-[0.95] text-ink">Machinery</h1>
+            <p className="mt-3 text-[13px] sm:text-[14px] leading-6 text-ink/65">
+              Production lines from semi-automatic to fully automatic — spec tables below are the source of truth, not teaser cards. Each row is a
+              real <span className="font-mono-spec text-[12px]">&lt;table&gt;</span> with hairline borders; capacities and dimensions in monospace.
+            </p>
+          </div>
 
-      <section className="rounded-2xl bg-ink text-paper p-8 md:p-12 mb-16 md:mb-20">
-        <h3 className="font-serif text-2xl md:text-3xl tracking-tight mb-6">Export info</h3>
-        <div className="grid md:grid-cols-3 gap-8 md:gap-12 text-paper/80 text-sm leading-relaxed">
-          <div>
-            <h4 className="font-semibold text-paper mb-3">Countries served</h4>
-            <p>Over 45 countries across Africa, Middle East, Southeast Asia, and South America. Lines installed in poultry-dense regions with follow-up service available.</p>
+          <div className="mt-8 space-y-4">
+            {machines.map((m) => (
+              <div key={m.slug} className="border border-[var(--line-strong)] bg-kraft/25 overflow-hidden">
+                <div className="flex flex-wrap items-baseline justify-between gap-3 px-4 sm:px-6 py-4 border-b border-[var(--line)] bg-white">
+                  <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
+                    {m.name}{' '}
+                    {m.exportReady ? (
+                      <span className="ml-2 align-middle text-[10px] tracking-[0.1em] border border-rust/25 text-rust bg-rust/[0.06] px-1.5 py-0.5 leading-none">
+                        EXPORT-READY
+                      </span>
+                    ) : null}
+                  </h2>
+                  <span className="text-[11px] tracking-[0.08em] text-ink/45">{m.category}</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[13px] border-collapse">
+                    <thead>
+                      <tr className="bg-white/70 text-left">
+                        <th className="font-medium tracking-[0.06em] text-[11px] text-ink/55 px-4 sm:px-6 py-2.5 border-b border-[var(--line)] w-[18%]">
+                          Capacity
+                        </th>
+                        <th className="font-medium tracking-[0.06em] text-[11px] text-ink/55 px-4 sm:px-6 py-2.5 border-b border-[var(--line)] w-[16%]">
+                          Power
+                        </th>
+                        <th className="font-medium tracking-[0.06em] text-[11px] text-ink/55 px-4 sm:px-6 py-2.5 border-b border-[var(--line)]">
+                          Raw material
+                        </th>
+                        <th className="font-medium tracking-[0.06em] text-[11px] text-ink/55 px-4 sm:px-6 py-2.5 border-b border-[var(--line)] w-[28%]">
+                          Dimensions (L × W × H)
+                        </th>
+                        <th className="px-4 sm:px-6 py-2.5 border-b border-[var(--line)] w-px" aria-hidden />
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                      <tr>
+                        <td className="font-mono-spec tabular-nums px-4 sm:px-6 py-3 border-b border-[var(--line)]">
+                          {m.capacityPerHour.toLocaleString()} pcs/hr
+                        </td>
+                        <td className="font-mono-spec tabular-nums px-4 sm:px-6 py-3 border-b border-[var(--line)]">{m.specs.power}</td>
+                        <td className="px-4 sm:px-6 py-3 border-b border-[var(--line)] text-ink/75">{m.specs.rawMaterial}</td>
+                        <td className="font-mono-spec tabular-nums px-4 sm:px-6 py-3 border-b border-[var(--line)] text-[13px]">
+                          {m.specs.dimensions}
+                        </td>
+                        <td className="whitespace-nowrap px-4 sm:px-6 py-3 border-b border-[var(--line)]">
+                          <Link href={`/machinery/${m.slug}`} className="text-[12px] font-medium text-rust underline underline-offset-4">
+                            Specs &amp; PDF
+                          </Link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <h4 className="font-semibold text-paper mb-3">Shipping & logistics</h4>
-            <p>Machines are packed in sea-grade crates with installation guides, video tutorials, and remote commissioning support included in the quote.</p>
-          </div>
-          <div>
-            <h4 className="font-semibold text-paper mb-3">Certifications</h4>
-            <p>CE-marked electrical assemblies. ISO 9001-aligned production processes with traceable documentation for import compliance.</p>
+        </div>
+      </section>
+
+      {/* Export manifest — like a shipping manifest, not a globe */}
+      <section className="border-b border-[var(--line-strong)] bg-kraft">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 py-8 sm:py-10">
+          <div className="border border-[var(--line-strong)] bg-white overflow-hidden">
+            <div className="flex flex-wrap items-baseline justify-between gap-3 px-4 sm:px-6 py-4 border-b border-[var(--line-strong)] bg-ink text-white">
+              <h2 className="font-mono-spec text-[12px] tracking-[0.14em]">MANIFEST — EXPORT &amp; LOGISTICS</h2>
+              <span className="font-mono-spec text-[11px] tracking-[0.08em] text-white/60">45 COUNTRIES · SEA-FREIGHT CRATED</span>
+            </div>
+
+            <div className="grid lg:grid-cols-[1.35fr_0.9fr]">
+              <div className="p-4 sm:p-6 border-b lg:border-b-0 lg:border-r border-[var(--line)]">
+                <h3 className="text-[11px] tracking-[0.1em] text-ink/45">COUNTRIES SERVED — MACHINERY INSTALLED</h3>
+                <p className="mt-1 text-[12px] leading-5 text-ink/55">
+                  Listed, not visualised. Poultry-dense regions across Africa, Middle East, Southeast Asia and South America.
+                </p>
+                <ul className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1.5 font-mono-spec text-[12px] leading-5 tabular-nums text-ink/75">
+                  {EXPORT_COUNTRIES.map((c) => (
+                    <li key={c} className="border-b border-[var(--line-faint)] py-1">
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-[11px] leading-5 text-ink/40">
+                  Replace or extend this list from Firestore when ready — shape is{' '}
+                  <span className="font-mono-spec">lib/site.ts → EXPORT_COUNTRIES</span>.
+                </p>
+              </div>
+
+              <div className="divide-y divide-[var(--line)]">
+                <div className="px-4 sm:px-6 py-5">
+                  <h3 className="text-[13px] font-semibold tracking-[-0.01em] text-ink">Shipping &amp; logistics</h3>
+                  <p className="mt-2 text-[13px] leading-6 text-ink/65">
+                    Lines are sea-grade crated with bolted skids. Packing includes installation guide, wiring diagrams and a video run-through.
+                    Remote commissioning is included in the quote; on-site available on request.
+                  </p>
+                </div>
+                <div className="px-4 sm:px-6 py-5">
+                  <h3 className="text-[13px] font-semibold tracking-[-0.01em] text-ink">Certifications</h3>
+                  <p className="mt-2 text-[13px] leading-6 text-ink/65">
+                    CE-marked electrical assemblies. Production aligned to ISO 9001 with traceable documentation for import compliance. Certificates
+                    issued per order on request.
+                  </p>
+                </div>
+                <div className="px-4 sm:px-6 py-5">
+                  <h3 className="text-[13px] font-semibold tracking-[-0.01em] text-ink">After-sales</h3>
+                  <p className="mt-2 text-[13px] leading-6 text-ink/65">
+                    Spare moulds, dryer felts and vacuum pumps stocked. Response via phone and video; documented troubleshooting by machine serial.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <MachineCompareTable />
 
-      <section className="rounded-2xl bg-earth-50 border border-earth-200/40 p-8 md:p-10">
-        <h3 className="font-serif text-2xl md:text-3xl tracking-tight mb-6">Quote request</h3>
-        <FormBuilder
-          inquiryType="machine"
-          fields={[
-            { name: 'name', label: 'Your name', type: 'text', required: true },
-            { name: 'email', label: 'Email', type: 'email', required: true },
-            { name: 'country', label: 'Country', type: 'text', required: true },
-            { name: 'capacity', label: 'Intended capacity (pieces/hour)', type: 'text' },
-            { name: 'budget', label: 'Budget range (optional)', type: 'text' },
-            { name: 'message', label: 'Project details or questions', type: 'textarea', full: true },
-          ]}
-          submitLabel="Request a quote"
-        />
+      <section className="bg-white border-t border-[var(--line-strong)]">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 py-8 sm:py-10">
+          <div className="max-w-[720px] border border-[var(--line)] bg-kraft/40">
+            <div className="border-b border-[var(--line)] bg-steel/[0.08] px-5 py-4 flex items-baseline justify-between gap-4">
+              <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-ink">Quote request — machinery</h2>
+              <span className="text-[11px] tracking-[0.08em] text-ink/45">STEEL — MACHINERY</span>
+            </div>
+            <div className="px-5 py-6 bg-white/70">
+              <FormBuilder
+                tone="steel"
+                inquiryType="machine"
+                submitLabel="Request a quote"
+                fields={[
+                  { name: 'name', label: 'Your name', type: 'text', required: true, placeholder: 'Full name' },
+                  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'name@company.com' },
+                  { name: 'country', label: 'Country', type: 'text', required: true, placeholder: 'Country of installation' },
+                  { name: 'capacity', label: 'Intended capacity (pcs/hr)', type: 'text', placeholder: 'e.g. 3000' },
+                  { name: 'budget', label: 'Budget range (optional)', type: 'text', placeholder: 'e.g. USD 45k–60k' },
+                  {
+                    name: 'message',
+                    label: 'Project details or questions',
+                    type: 'textarea',
+                    full: true,
+                    placeholder: 'Site, power available, raw material, timeline…',
+                  },
+                ]}
+              />
+              <p className="mt-4 text-[11px] leading-5 text-ink/45">
+                Writes <span className="font-mono-spec">inquiries</span> with <span className="font-mono-spec">type: &apos;machine&apos;</span>.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
-    </section>
+    </div>
   );
 }

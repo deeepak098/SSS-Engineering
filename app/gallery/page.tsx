@@ -1,36 +1,56 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import type { Metadata } from 'next';
 import { SITE_NAME } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: `Gallery — ${SITE_NAME}`,
-  description: 'Factory photos and installed machines at client sites.',
+  description: 'Factory floor and installed machinery at client sites — simple image grid with hairline frames, no lightbox.',
 };
 
+const images: { label: string; caption: string }[] = [
+  { label: 'PULP LINE', caption: 'Raw pulp preparation and screening' },
+  { label: 'MOULDING', caption: 'Vacuum moulding — 30-cavity aluminium moulds' },
+  { label: 'DRYER', caption: 'Multi-deck hot-air dryer, moisture below 8%' },
+  { label: 'HOT-PRESS', caption: 'Trimming and hot-press finishing' },
+  { label: 'STACKING', caption: 'Inline counting and stacking' },
+  { label: 'CRATING', caption: 'Sea-freight crating for export machinery' },
+  { label: 'CLIENT SITE — AFRICA', caption: 'Installed SSS 3000 at a client site' },
+  { label: 'CLIENT SITE — SE ASIA', caption: 'Installed SSS 1500 — semi-automatic line' },
+];
+
 export default function GalleryPage() {
-  const images = [
-    { src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop', caption: 'Raw pulp molding line' },
-    { src: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1200&auto=format&fit=crop', caption: 'Machine assembly floor' },
-    { src: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?q=80&w=1200&auto=format&fit=crop', caption: 'Installed line at a client site' },
-    { src: 'https://images.unsplash.com/photo-1518770660439-4636500cff5f?q=80&w=1200&auto=format&fit=crop', caption: 'Quality inspection' },
-  ];
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <header className="max-w-3xl mb-12 md:mb-16">
-        <h1 className="font-serif text-4xl md:text-6xl tracking-tight mb-4">Gallery</h1>
-        <p className="text-ink/70 text-base md:text-lg leading-relaxed">Real photos from our factory and from installations at client production sites.</p>
-      </header>
-      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-        {images.map((img, i) => (
-          <figure key={i} className="group overflow-hidden rounded-2xl border border-earth-200/40 shadow-sm">
-            <div className="aspect-[4/3] overflow-hidden">
-              <img src={img.src} alt={img.caption} className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" loading="lazy" />
+    <div>
+      <section className="border-b border-[var(--line-strong)] bg-white">
+        <div className="mx-auto max-w-[1180px] px-4 sm:px-6 py-10 sm:py-12">
+          <div className="max-w-[62ch]">
+            <div className="inline-flex items-center gap-2 text-[11px] tracking-[0.14em] text-ink/45">
+              <span className="w-6 h-px bg-ink/30" aria-hidden />
+              GALLERY — FACTORY &amp; INSTALLATIONS
             </div>
-            <figcaption className="text-xs text-ink/50 px-4 py-3">{img.caption}</figcaption>
-          </figure>
-        ))}
-      </div>
-    </section>
+            <h1 className="mt-3 text-[32px] sm:text-[40px] font-semibold tracking-[-0.035em] leading-[0.95] text-ink">Gallery</h1>
+            <p className="mt-3 text-[13px] sm:text-[14px] leading-6 text-ink/65">
+              Real photos from the factory and from installations at client production sites. Simple bordered grid — no lightbox, no carousel,
+              no JS. Replace the placeholders below with your own assets when available.
+            </p>
+          </div>
+
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {images.map((img) => (
+              <figure key={img.label} className="border border-[var(--line-strong)] bg-kraft/20 overflow-hidden">
+                <div className="aspect-[4/3] bg-white flex flex-col items-center justify-center gap-1 border-b border-[var(--line)]">
+                  <span className="font-mono-spec text-[11px] tracking-[0.12em] text-ink/35">{img.label}</span>
+                  <span className="text-[11px] tracking-[0.06em] text-ink/25">IMAGE PLACEHOLDER</span>
+                </div>
+                <figcaption className="bg-white px-3 py-2.5 text-[12px] leading-5 text-ink/60">{img.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <p className="mt-4 text-[11px] leading-5 text-ink/40">
+            Keep images at a sensible weight — this page is intentionally static for fast loading on mobile. No hover-lift or shadow on tiles.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }
