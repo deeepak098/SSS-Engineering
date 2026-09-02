@@ -1,3 +1,5 @@
+'use client';
+
 export default function AdminNewTrayPage() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-10 md:py-16">

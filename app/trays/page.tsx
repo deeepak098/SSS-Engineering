@@ -57,10 +57,10 @@ export default function TraysPage() {
         <FormBuilder
           inquiryType="tray"
           fields={[
-            { name: 'name', label: 'Your name', required: true },
-            { name: 'phone', label: 'Phone / WhatsApp', required: true },
-            { name: 'location', label: 'Location / region', required: true },
-            { name: 'quantity', label: 'Quantity needed (approx.)' },
+            { name: 'name', label: 'Your name', type: 'text', required: true },
+            { name: 'phone', label: 'Phone / WhatsApp', type: 'tel', required: true },
+            { name: 'location', label: 'Location / region', type: 'text', required: true },
+            { name: 'quantity', label: 'Quantity needed (approx.)', type: 'text' },
             { name: 'frequency', label: 'Delivery frequency (e.g. weekly, monthly)', type: 'textarea', full: true },
           ]}
           submitLabel="Send inquiry"

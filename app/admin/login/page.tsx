@@ -1,10 +1,7 @@
+'use client';
+
 import { Metadata } from 'next';
 import { SITE_NAME } from '@/lib/site';
-
-export const metadata: Metadata = {
-  title: `Admin Login — ${SITE_NAME}`,
-  robots: { index: false, follow: false },
-};
 
 export default function AdminLoginPage() {
   return (

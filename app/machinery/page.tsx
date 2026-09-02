@@ -72,11 +72,11 @@ export default function MachineryPage() {
         <FormBuilder
           inquiryType="machine"
           fields={[
-            { name: 'name', label: 'Your name', required: true },
-            { name: 'email', label: 'Email', required: true },
-            { name: 'country', label: 'Country', required: true },
-            { name: 'capacity', label: 'Intended capacity (pieces/hour)' },
-            { name: 'budget', label: 'Budget range (optional)' },
+            { name: 'name', label: 'Your name', type: 'text', required: true },
+            { name: 'email', label: 'Email', type: 'email', required: true },
+            { name: 'country', label: 'Country', type: 'text', required: true },
+            { name: 'capacity', label: 'Intended capacity (pieces/hour)', type: 'text' },
+            { name: 'budget', label: 'Budget range (optional)', type: 'text' },
             { name: 'message', label: 'Project details or questions', type: 'textarea', full: true },
           ]}
           submitLabel="Request a quote"
